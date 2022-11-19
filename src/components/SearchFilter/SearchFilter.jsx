@@ -1,8 +1,16 @@
 import React from 'react';
 import css from './SearchFilter.module.css';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterContactsAction, getFilterValue } from '../../redux/filterSlice';
 
-const SearchFilter = ({ filter, onHandleChange }) => {
+const SearchFilter = () => {
+  const filter = useSelector(getFilterValue);
+  const dispatch = useDispatch();
+
+  const onHandleChangeFilter = evt => {
+    dispatch(filterContactsAction(evt.currentTarget.value));
+  };
+
   return (
     <div>
       <h3 className={css.filter__title}>Find contacts by name</h3>
@@ -11,16 +19,11 @@ const SearchFilter = ({ filter, onHandleChange }) => {
         type="text"
         name="filter"
         value={filter}
-        onChange={onHandleChange}
+        onChange={onHandleChangeFilter}
         className={css.filter__input}
       />
     </div>
   );
-};
-
-SearchFilter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onHandleChange: PropTypes.func.isRequired,
 };
 
 export default SearchFilter;
